@@ -1,0 +1,31 @@
+<?php
+$servername = "localhost";
+$username = "username";
+$password = "password";
+
+// Create connection
+$conn = mysqli_connect($servername, $username, $password);
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+echo "Connected successfully";
+?>
+
+<html>
+<title> Demo</title>
+
+
+<style>.block {text-align: center;margin-bottom:10px;}.block:before {content: '';display: inline-block;height: 100%;vertical-align: middle;margin-right: -0.25em;}.centered {display: inline-block;vertical-align: middle;width: 300px;}</style>
+
+<body>
+<div class="block" style="height: 99%;">
+    <div class="centered">
+        <h1>VM 2 </h1>
+        <h2>Philbert Mukunzi</h2>
+        <p>Served by Hostname: {{ ansible_hostname }} IP: ({{ ansible_eth1.ipv4.address }}).</p>
+    </div>
+</div> 
+</body>
+</html>

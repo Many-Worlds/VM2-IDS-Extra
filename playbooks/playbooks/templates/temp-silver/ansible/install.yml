@@ -1,0 +1,15 @@
+---
+# web
+- hosts: webservers
+  sudo: yes
+
+  roles:
+    - web
+
+# databases
+- hosts: dbservers
+  sudo: yes
+
+  roles:
+    - mysql
+

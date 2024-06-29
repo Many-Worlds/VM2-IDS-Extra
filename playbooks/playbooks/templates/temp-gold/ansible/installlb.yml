@@ -1,0 +1,9 @@
+---
+# loadbalancers
+- hosts: loadbalancers
+  remote_user: root
+
+  roles:
+    - lb
+
+

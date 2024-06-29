@@ -1,0 +1,6 @@
+[webservers]
+webs1
+webs2
+
+[dbservers]
+dbs
