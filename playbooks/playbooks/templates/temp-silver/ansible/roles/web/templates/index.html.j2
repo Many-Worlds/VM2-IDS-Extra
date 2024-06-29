@@ -1,0 +1,37 @@
+
+<?php
+
+$servername = "172.28.128.101";
+$username = "dba";
+$password = "dba";
+
+try {
+        $conn = new PDO("mysql:host=$servername;dbname=vm2", $username, $password);
+    // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        echo "Connected successfully"; 
+}
+catch(PDOException $e)
+{
+        echo "Connection failed: " . $e->getMessage();
+}
+?>
+
+<html>
+<title> Demo</title>
+
+
+<style>.block {text-align: center;margin-bottom:10px;}.block:before {content: '';display: inline-block;height: 100%;vertical-align: middle;margin-right: -0.25em;}.centered {display: inline-block;vertical-align$
+
+<body>
+<div class="block" style="height: 99%;">
+    <div class="centered">
+        <h1>VM 2 </h1>
+        <h2>Philbert Mukunzi</h2>
+        <p>Served by Hostname: {{ ansible_hostname }} IP: ({{ ansible_eth1.ipv4.address }}).</p>
+    </div>
+</div> 
+</body>
+</html>
+
+

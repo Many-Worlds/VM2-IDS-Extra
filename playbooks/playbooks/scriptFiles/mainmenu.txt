@@ -1,0 +1,13 @@
+ #################################################################
+ #                                                      	  #
+ #    Welcome $uname, pick a option by pressing the number:  	  #
+ #                                                      	  #
+ #    1. Create New cluster                             	  #
+ #                                                      	  #
+ #    2. Edit a existing cluster                        	  #
+ #                                                      	  #
+ #    3. Check if cluster has network connection        	  #
+ #                                                      	  #
+ #    4. Exit the application                           	  #
+ #                                                      	  #
+ #################################################################

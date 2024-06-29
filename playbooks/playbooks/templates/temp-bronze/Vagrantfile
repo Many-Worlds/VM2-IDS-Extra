@@ -1,0 +1,42 @@
+# Defines our Vagrant environment
+#
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  # create bronze webserver
+  config.vm.define :webb do |webb_config|
+    webb_config.vm.box = "ubuntu/trusty32"
+    config.ssh.insert_key = false
+    webb_config.vm.hostname = "webb"
+    webb_config.vm.network :private_network, ip: "172.28.128.100"
+    webb_config.vm.network "forwarded_port", guest: 80, host: "8081"
+    webb_config.vm.provider "virtualbox" do |vb|
+      vb.name = "webb"
+      vb.memory = "256"
+    end
+    config.vm.provision "ansible" do |ansible|
+      ansible.playbook = "ansible/installweb.yml"
+      ansible.inventory_path = "ansible/hosts"
+    end
+  end
+
+  # create bronze database server
+  config.vm.define :dbb do |dbb_config|
+    dbb_config.vm.box = "ubuntu/trusty32"
+    config.ssh.insert_key = false
+    dbb_config.vm.hostname = "dbb"
+    dbb_config.vm.network :private_network, ip: "172.28.128.101"
+    dbb_config.vm.provider "virtualbox" do |vb|
+      vb.name = "dbb"
+      vb.memory = "256"
+    end
+  end
+  config.vm.provision "ansible" do |ansible|
+	ansible.playbook = "ansible/installdb.yml"
+	ansible.inventory_path = "ansible/hosts"
+  end
+
+
+end

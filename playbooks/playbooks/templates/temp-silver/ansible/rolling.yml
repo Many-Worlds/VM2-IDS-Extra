@@ -1,0 +1,43 @@
+---
+
+
+# web
+- hosts: webservers
+  sudo: yes
+  serial: 1
+
+  tasks:
+
+  - name: install nginx
+    action: apt name=nginx state=installed
+
+  - name: install php
+    action: apt name=php5 state=installed
+
+  - name: write our nginx.conf
+    action: template src=templates/nginx.conf.j2 dest=/etc/nginx/nginx.conf
+    notify: restart nginx
+
+  - name: write our /etc/nginx/sites-available/default
+    action: template src=templates/default-site.j2 dest=/etc/nginx/sites-available/default
+    notify: restart nginx
+
+  - name: clean existing website content
+    file: path=/usr/share/nginx/html/index.html state=absent
+
+  - name: clean existing website content2
+    file: path=/usr/share/nginx/html/index.php state=absent
+
+  - name: deploy website content
+    template: src=index.html.j2 dest=/usr/share/nginx/html/index.html
+
+  - name: deploy website content2
+    template: src=index.php.j2 dest=/usr/share/nginx/html/index.php
+
+
+  handlers:
+
+  - name: restart nginx
+    action: service name=nginx state=restarted
+
+

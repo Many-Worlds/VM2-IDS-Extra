@@ -1,0 +1,35 @@
+---
+- name: update mysql config file
+  template:
+    src: templates/my.cnf.j2
+    dest: /etc/mysql/my.cnf
+  notify:
+    - restart mysql
+
+- name: Check replication init with checking file existence
+  stat: path=/etc/mysql/repl.ansible
+  register: check_sql_path
+
+- mysql_replication:
+    mode: changemaster
+    master_host: "{{ groups.dbservers[1] }}"
+    master_user: dbarepl
+    master_password: "{{ mysql_dbarepl_password }}"
+  when: groups.dbservers[1] is defined and check_sql_path.stat.exists == false and '{{ inventory_hostname }}' == '{{ groups.dbservers[0] }}'
+  notify:
+    - restart mysql
+
+- command: touch /etc/mysql/repl.ansible
+  when: groups.dbservers[1] is defined and check_sql_path.stat.exists == false and '{{ inventory_hostname }}' == '{{ groups.dbservers[0] }}'
+
+- mysql_replication:
+    mode: changemaster
+    master_host: "{{ groups.dbservers[0] }}"
+    master_user: dbarepl
+    master_password: "{{ mysql_dbarepl_password }}"
+  when: groups.dbservers[1] is defined and check_sql_path.stat.exists == false and '{{ inventory_hostname }}' == '{{ groups.dbservers[1] }}'
+  notify:
+    - restart mysql
+
+- command: touch /etc/mysql/repl.ansible
+  when: groups.dbservers[1] is defined and check_sql_path.stat.exists == false and '{{ inventory_hostname }}' == '{{ groups.dbservers[1] }}'

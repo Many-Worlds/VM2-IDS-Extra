@@ -1,0 +1,14 @@
+[webservers]
+webg1
+webg2
+webg3
+#webg4
+
+[dbservers]
+dbg1
+dbg2
+
+[loadbalancers]
+lbg
+
+

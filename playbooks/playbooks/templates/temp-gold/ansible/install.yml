@@ -1,0 +1,28 @@
+---
+
+#Gather facts
+- hosts: all
+  gather_facts: True
+
+# web
+- hosts: webservers
+  sudo: yes
+
+
+  roles:
+    - web
+
+# databases
+- hosts: dbservers
+  sudo: yes
+
+  roles:
+    - mysql
+    - mysql-repl
+
+# loadbalancers
+- hosts: loadbalancers
+  sudo: yes
+
+  roles:
+    - lb

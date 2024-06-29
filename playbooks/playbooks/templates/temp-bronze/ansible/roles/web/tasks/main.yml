@@ -1,0 +1,32 @@
+---
+- name: install nginx
+  apt: name=nginx state=installed update_cache=yes
+
+- name: install php5-common
+  action: apt name=php5-common state=installed
+
+- name: install php5-cli
+  action: apt name=php5-cli state=installed
+
+- name: install php5-fpm
+  action: apt name=php5-fpm state=installed
+
+- name: install php5-mysql
+  action: apt name=php5-mysql state=installed
+
+- name: write our nginx.conf
+  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
+  notify: restart nginx
+
+- name: write our /etc/nginx/sites-available/default
+  template: src=default-site.j2 dest=/etc/nginx/sites-available/default
+  notify: restart nginx
+
+- name: deploy website content
+  template: src=index.html.j2 dest=/usr/share/nginx/html/index.html
+
+- name: deploy website content2
+  template: src=index.php.j2 dest=/usr/share/nginx/html/index.php
+  notify: restart php5-fpm
+
+
